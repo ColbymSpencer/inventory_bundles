@@ -1,0 +1,54 @@
+---
+title: "inventory_bundles"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(tidyverse)
+# library(readxl)
+
+inventory <- readxl::read_xlsx('bra_inventory.xlsx') |>
+  janitor::clean_names()
+```
+
+```{r}
+view(iris)
+
+require(dplyr) 
+require(tidyr)
+
+num_groups = 10
+
+iris %>% 
+   group_by((row_number()-1) %/% (n()/num_groups)) %>%
+   nest %>% pull(data)
+
+iris |>
+   group_by(15) %>%
+   nest() %>% pull(data)
+```
+
+```{r}
+
+```
+
+```{r}
+inventory |>
+  mutate(count_50 = quantity %/% 50,
+         remain = quantity %% 50) |>
+  select(item_id, quantity, count_50, remain)
+
+inventory_50 <- inventory |>
+  mutate(count_50 = quantity %/% 50,
+         remain = quantity %% 50) |>
+  select(item_id, quantity, count_50, remain) |>
+  uncount(count_50)
+
+sample1 <- sample(inventory_50$item_id, size = 1450, replace = FALSE)
+
+split(sample1, )
+```
+
